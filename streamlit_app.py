@@ -26,7 +26,7 @@ def load_data():
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
         return index
 
-index_data = load_data()
+index = load_data()
 
 
 if "chat_engine" not in st.session_state.keys():
