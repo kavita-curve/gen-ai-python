@@ -5,7 +5,7 @@ import openai
 from llama_index import SimpleDirectoryReader
 
 st.set_page_config(page_title="Chat with the RCN Knowledge Base", layout="centered", initial_sidebar_state="auto", menu_items=None)
-open_ai.api_key = st.secrets.openai_key
+openai.api_key = st.secrets.openai_key
 st.header("Chat with the RCN Knowledge Base 💬 📚")
 st.info("Check out the full resources at [RaisingChildrenNetwork](https://raisingchildren.net.au/)")
 
