@@ -1,21 +1,19 @@
+# This class OpenAI's `gpt-3.5-turbo` LLM to generate summarization over proprietary content
+# This content as converted into vector index and resides in disk
+# User query is also converted into vector data and compared within the data in vector index.
+# Accordingly, summarized content is proposed
+
 import streamlit as st
+from llama_index import VectorStoreIndex, ServiceContext, Document
+from llama_index.llms import OpenAI
 import openai
-# from langchain.chains import RetrievalQA
-from langchain.chat_models import ChatOpenAI
-from langchain.document_loaders import CSVLoader
-from langchain.vectorstores import DocArrayInMemorySearch
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.indexes import VectorstoreIndexCreator
-from IPython.display import display, Markdown
-from langchain.document_loaders import UnstructuredMarkdownLoader
+from llama_index import SimpleDirectoryReader
+# from langchain.document_loaders import UnstructuredMarkdownLoader ### To be enabled soon
 
 st.set_page_config(page_title="Chat with the RCN Knowledge Base", layout="centered", initial_sidebar_state="auto", menu_items=None)
 openai.api_key = st.secrets.openai_key
 st.header("Chat with the RCN Knowledge Base 💬 📚")
 st.info("Check out the full resources at [RaisingChildrenNetwork](https://raisingchildren.net.au/)")
-
-llm_model = "gpt-3.5-turbo-0301"
-llm = ChatOpenAI(temperature=0.0, model=llm)
 
 if "messages" not in st.session_state.keys():
     st.session_state.messages = [
@@ -25,25 +23,13 @@ if "messages" not in st.session_state.keys():
         }
     ]
 
-# Function for generating LLM response
-# Custom function, as defined by streamlit, for taking in user's input prompt as an argument to generate an AI response using the ChatOpenAI
-#   method (this LLM model can be swapped with any other one)
-# Refer https://blog.streamlit.io/how-to-build-an-llm-powered-chatbot-with-streamlit/
-def generate_response(query):
-    response = index.query(query, llm=llm)
-    return response
-
 @st.cache_resource(show_spinner=False)
 def load_data():
     with st.spinner(text="Loading and indexing data..."):
         reader = SimpleDirectoryReader(input_dir="./data", recursive=True)
         docs = reader.load_data()
-        embeddings = OpenAIEmbeddings()
-
-        index = VectorstoreIndexCreator(
-            vectorstore_cls=DocArrayInMemorySearch,
-            embeddings=embeddings
-        ).from_loaders([loader])
+        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo", temperature=0.0, system_prompt="You are CareBot, an automated service to deliver best-practice parenting and child development information via raisingchildren.net.au. You first greet the customer, ask their name"))
+        index = VectorStoreIndex.from_documents(docs, service_context=service_context)
         return index
 
 index = load_data()
@@ -63,9 +49,7 @@ for message in st.session_state.messages: # Display the prior chat messages
 if st.session_state.messages[-1]["role"] != "assistant":
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            # response = st.session_state.chat_engine.chat(prompt)
-            response = generate_response(prompt)
-            st.write(response) 
-            # st.write(response.response)
+            response = st.session_state.chat_engine.chat(prompt)
+            st.write(response.response)
             message = {"role": "assistant", "content": response.response}
             st.session_state.messages.append(message) # Add response to message history
