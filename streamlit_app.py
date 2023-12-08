@@ -43,7 +43,7 @@ def load_data():
 
         index = VectorstoreIndexCreator(
             vectorstore_cls=DocArrayInMemorySearch,
-            embeddings=embeddings
+            embedding=embeddings,
         ).from_loaders([loader])
         return index
 
