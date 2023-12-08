@@ -1,3 +1,8 @@
+# This class OpenAI's `gpt-3.5-turbo` LLM to generate summarization over proprietary content
+# This content as converted into vector index and resides in disk
+# User query is also converted into vector data and compared within the data in vector index.
+# Accordingly, summarized content is proposed
+
 import streamlit as st
 from llama_index import VectorStoreIndex, ServiceContext, Document
 from llama_index.llms import OpenAI
