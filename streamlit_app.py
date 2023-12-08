@@ -1,6 +1,5 @@
 import streamlit as st
 import openai
-# from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
 from langchain.document_loaders import CSVLoader
 from langchain.vectorstores import DocArrayInMemorySearch
@@ -8,7 +7,6 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.indexes import VectorstoreIndexCreator
 from IPython.display import display, Markdown
 from langchain.document_loaders import UnstructuredMarkdownLoader
-from llama_index import SimpleDirectoryReader
 
 st.set_page_config(page_title="Chat with the RCN Knowledge Base", layout="centered", initial_sidebar_state="auto", menu_items=None)
 openai.api_key = st.secrets.openai_key
@@ -37,8 +35,7 @@ def generate_response(query):
 @st.cache_resource(show_spinner=False)
 def load_data():
     with st.spinner(text="Loading and indexing data..."):
-        reader = SimpleDirectoryReader(input_dir="./data", recursive=True)
-        docs = reader.load_data()
+        loader = CSVLoader(file_path='data/toddlers_sleep.csv')
         embeddings = OpenAIEmbeddings()
 
         index = VectorstoreIndexCreator(
