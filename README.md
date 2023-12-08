@@ -31,6 +31,7 @@ In ~/.bashrc or ~./profile, add these:
 
 ### Running dev server ###
 - Run: `FLASK_APP=manage.py flask run`
+- Run: `OPENAI_API_KEY=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 streamlit run streamlit_app.py`
 
 
 ### After adding a plugin ###

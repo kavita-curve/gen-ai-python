@@ -29,6 +29,7 @@ if "messages" not in st.session_state.keys():
 #   method (this LLM model can be swapped with any other one)
 # Refer https://blog.streamlit.io/how-to-build-an-llm-powered-chatbot-with-streamlit/
 def generate_response(query):
+    print(query)
     response = index.query(query, llm=llm)
     return response
 
@@ -61,12 +62,9 @@ for message in st.session_state.messages: # Display the prior chat messages
 if st.session_state.messages[-1]["role"] != "assistant":
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            # response = st.session_state.chat_engine.chat(prompt)
-            print(prompt)
-            response = generate_response(prompt)
+            response = index.query(prompt, llm=llm)
             st.write(response) 
-            # st.write(response.response)
-            message = {"role": "assistant", "content": response.response}
+            message = {"role": "assistant", "content": response}
             st.session_state.messages.append(message) # Add response to message history
 
 
