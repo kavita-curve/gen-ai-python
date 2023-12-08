@@ -15,7 +15,7 @@ st.header("Chat with the RCN Knowledge Base 💬 📚")
 st.info("Check out the full resources at [RaisingChildrenNetwork](https://raisingchildren.net.au/)")
 
 llm_model = "gpt-3.5-turbo-0301"
-llm = ChatOpenAI(temperature=0.0, model=llm)
+llm = ChatOpenAI(temperature=0.0, model=llm_model)
 
 if "messages" not in st.session_state.keys():
     st.session_state.messages = [
