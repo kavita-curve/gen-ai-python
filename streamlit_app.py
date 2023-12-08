@@ -8,6 +8,7 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.indexes import VectorstoreIndexCreator
 from IPython.display import display, Markdown
 from langchain.document_loaders import UnstructuredMarkdownLoader
+from llama_index import SimpleDirectoryReader
 
 st.set_page_config(page_title="Chat with the RCN Knowledge Base", layout="centered", initial_sidebar_state="auto", menu_items=None)
 openai.api_key = st.secrets.openai_key
@@ -15,7 +16,7 @@ st.header("Chat with the RCN Knowledge Base 💬 📚")
 st.info("Check out the full resources at [RaisingChildrenNetwork](https://raisingchildren.net.au/)")
 
 llm_model = "gpt-3.5-turbo-0301"
-llm = ChatOpenAI(temperature=0.0, model=llm_model)
+llm = ChatOpenAI(temperature=0.0, model=llm_model) # Ensure OPENAI_API_KEY is set in the environment variable
 
 if "messages" not in st.session_state.keys():
     st.session_state.messages = [
