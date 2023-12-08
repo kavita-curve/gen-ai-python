@@ -62,6 +62,7 @@ if st.session_state.messages[-1]["role"] != "assistant":
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             # response = st.session_state.chat_engine.chat(prompt)
+            print(prompt)
             response = generate_response(prompt)
             st.write(response) 
             # st.write(response.response)
