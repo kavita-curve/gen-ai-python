@@ -1,6 +1,6 @@
 import streamlit as st
 import openai
-from langchain.chains import RetrievalQA
+# from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
 from langchain.document_loaders import CSVLoader
 from langchain.vectorstores import DocArrayInMemorySearch
