@@ -37,3 +37,6 @@ In ~/.bashrc or ~./profile, add these:
 ### After adding a plugin ###
 - Run: `pip3 freeze > requirements.txt`
 - Note, if `requirements.txt` does not udpate, close the terminal and select your existing environment as mentioned above
+
+### Jupyter Notebook ###
+- Refer https://colab.research.google.com/drive/1_1Eox23kTiTtzHv4qEw0QWGrxjI4_kBN
